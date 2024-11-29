@@ -21,7 +21,7 @@ export const useController = defineStore('controller', () => {
   const musicSound = new Audio(music)
 
   musicSound.loop = true
-  musicSound.volume = 0.8
+  musicSound.volume = 0.5
 
   if (playMusic.value) musicSound.play()
 

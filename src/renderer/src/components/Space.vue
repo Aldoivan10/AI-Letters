@@ -1,6 +1,7 @@
 <template>
   <svg
     ref="$el"
+    @focus=""
     version="1.0"
     class="star-space"
     viewBox="0 0 1280 1280"

@@ -18,6 +18,12 @@ body {
     stroke-width: 15rem;
     stroke: lightblue;
     font-size: 40rem;
+    cursor: pointer;
+    outline: none;
+
+    &:focus {
+      filter: drop-shadow(0rem 0rem 0.5rem #5454ff);
+    }
 
     &:has(.placed) {
       filter: drop-shadow(0rem 0rem 0.5rem #cca628);
@@ -34,10 +40,6 @@ body {
       fill-opacity: 0.7;
       stroke-width: 1rem;
       stroke-opacity: 0.7;
-    }
-
-    & > *:not(.placed) {
-      pointer-events: none;
     }
   }
 
