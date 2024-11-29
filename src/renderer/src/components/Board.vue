@@ -1,7 +1,12 @@
 <template>
   <section class="board">
     <template v-for="(cols, row) in rows">
-      <Space ref="$spaces" :class="`row-${row}-${col}`" v-for="(_, col) in cols" />
+      <Space
+        ref="$spaces"
+        :class="`row-${row} p-${row}-${col}`"
+        v-for="(_, col) in cols"
+        @keyup="handleKey"
+      />
       <div v-for="_ in maxColumns - (cols ?? 0)"></div>
     </template>
   </section>
@@ -18,6 +23,7 @@ const $spaces = ref<(typeof Space)[]>([])
 const { rows, maxColumns, $starSpace } = storeToRefs(controller)
 const colsTemplate = computed(() => `repeat(${maxColumns.value}, 1fr)`)
 const $svgs = ref<SVGElement[]>([])
+const regex = /^[\p{L}\p{N}]$/u
 
 function next() {
   const $els = $svgs.value
@@ -42,8 +48,8 @@ function up() {
   const nextRow = (row + rows.value.length - 1) % rows.value.length
 
   const $space =
-    $svgs.value.find(($svg) => $svg.classList.contains(`row-${nextRow}-${col}`)) ||
-    $svgs.value.find(($svg) => $svg.classList.contains(`row-${nextRow}-0`))
+    $svgs.value.find(($svg) => $svg.classList.contains(`p-${nextRow}-${col}`)) ||
+    $svgs.value.find(($svg) => $svg.classList.contains(`p-${nextRow}-0`))
 
   $space?.focus()
 }
@@ -58,10 +64,15 @@ function down() {
   const nextRow = (row + 1) % rows.value.length
 
   const $space =
-    $svgs.value.find(($svg) => $svg.classList.contains(`row-${nextRow}-${col}`)) ||
-    $svgs.value.find(($svg) => $svg.classList.contains(`row-${nextRow}-0`))
+    $svgs.value.find(($svg) => $svg.classList.contains(`p-${nextRow}-${col}`)) ||
+    $svgs.value.find(($svg) => $svg.classList.contains(`p-${nextRow}-0`))
 
   $space?.focus()
+}
+
+function handleKey(evt: KeyboardEvent) {
+  if (evt.key === 'Backspace') controller.toggleChar(evt.target as SVGElement)
+  else if (regex.test(evt.key)) controller.toggleChar(evt.target as SVGElement, evt.key)
 }
 
 window.addEventListener('keyup', (evt) => {

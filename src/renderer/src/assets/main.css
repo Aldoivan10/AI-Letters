@@ -22,11 +22,22 @@ body {
     outline: none;
 
     &:focus {
-      filter: drop-shadow(0rem 0rem 0.5rem #5454ff);
+      filter: drop-shadow(0rem 0rem 0.5rem white);
+
+      &:has(.placed) {
+        filter: drop-shadow(0rem 0rem 0.5rem white) drop-shadow(0rem 0rem 0.5rem #cca628);
+      }
     }
 
     &:has(.placed) {
       filter: drop-shadow(0rem 0rem 0.5rem #cca628);
+      stroke-dasharray: initial;
+      stroke-width: 8rem;
+      stroke: #ffe386;
+
+      text {
+        display: initial;
+      }
     }
 
     .placed {
@@ -35,12 +46,18 @@ body {
     }
 
     text {
+      display: none;
       fill: #333333;
       stroke: #333333;
       fill-opacity: 0.7;
       stroke-width: 1rem;
       stroke-opacity: 0.7;
     }
+  }
+
+  .char {
+    position: absolute;
+    pointer-events: none;
   }
 
   .star-char {

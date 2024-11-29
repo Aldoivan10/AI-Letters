@@ -95,6 +95,7 @@ export const useController = defineStore('controller', () => {
   }
 
   function checkRow(rowClass: string) {
+    console.log('????')
     const $spaces = document.querySelectorAll(`.${rowClass}`)
     const arr = Array.from($spaces)
     const complete = arr.every(($el) => $el.querySelector('.placed'))
@@ -143,6 +144,28 @@ export const useController = defineStore('controller', () => {
       })
   }
 
+  function toggleChar($el: SVGElement, char?: string) {
+    const $fill = $el.querySelector('.fill')!
+    const $text = $el.querySelector('text')!
+
+    if (char) {
+      const sound = new Audio(put)
+      $fill.classList.add('placed')
+      sound.volume = 0.5
+      sound.play()
+
+      if ($text.textContent !== char) {
+        $text.textContent = char
+        sayLetter(char)
+        checkRow($el.classList[1])
+      }
+    } else if ($fill.classList.contains('placed')) {
+      $fill.classList.remove('placed')
+      $text.textContent = ''
+      dropSound.play()
+    }
+  }
+
   window.api.showBoardConfig(() => (showDialog.value = true))
   window.api.onToggleMusic((val) => (playMusic.value = val))
   window.api.onToggleSay((val) => (sayChar.value = val))
@@ -175,6 +198,7 @@ export const useController = defineStore('controller', () => {
     showDialog,
     maxColumns,
     removeLetter,
+    toggleChar,
     startDrag,
     sayLetter
   }
