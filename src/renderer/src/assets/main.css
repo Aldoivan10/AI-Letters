@@ -1,0 +1,119 @@
+@import url(pico.purple.min.css);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  overflow: hidden;
+  height: 100dvh;
+  display: flex;
+
+  .star-space {
+    fill: color-mix(in srgb, white, transparent 70%);
+    stroke-dasharray: 25rem;
+    stroke-width: 15rem;
+    stroke: lightblue;
+    font-size: 40rem;
+
+    &:has(.placed) {
+      filter: drop-shadow(0rem 0rem 0.5rem #cca628);
+    }
+
+    .placed {
+      cursor: pointer;
+      fill: url(#char-gradient);
+    }
+
+    text {
+      fill: #333333;
+      stroke: #333333;
+      fill-opacity: 0.7;
+      stroke-width: 1rem;
+      stroke-opacity: 0.7;
+    }
+
+    & > *:not(.placed) {
+      pointer-events: none;
+    }
+  }
+
+  .star-char {
+    z-index: 1;
+    outline: none;
+    cursor: pointer;
+    stroke: #ffd756;
+    font-size: 40rem;
+    position: relative;
+    aspect-ratio: 1 / 1;
+    stroke-width: 15rem;
+    user-select: none;
+    fill: url(#char-gradient);
+
+    filter: drop-shadow(-0.5rem 0.25rem 0.01rem #cca628);
+
+    text {
+      fill: #333333;
+      stroke: #333333;
+      fill-opacity: 0.7;
+      stroke-width: 1rem;
+      stroke-opacity: 0.7;
+    }
+
+    & > * {
+      pointer-events: none;
+    }
+
+    &:is(.draggable) {
+      --x: 0;
+      --y: 0;
+
+      cursor: move;
+      filter: initial;
+      position: absolute;
+      transform: translate(var(--x), var(--y));
+    }
+  }
+
+  .ornament {
+    filter: drop-shadow(0rem 0rem 0.5rem #cca628);
+    transform-origin: center;
+    pointer-events: none;
+    aspect-ratio: 1 / 1;
+    position: absolute;
+    opacity: 0;
+    z-index: 1;
+    scale: 1.5;
+  }
+
+  /* Estilo para el scrollbar */
+  *::-webkit-scrollbar {
+    width: 8px; /* Ancho del scroll vertical */
+    height: 8px; /* Altura del scroll horizontal */
+  }
+
+  /* Fondo de la pista del scroll */
+  *::-webkit-scrollbar-track {
+    background: color-mix(in srgb, #f1f1f1, transparent 50%); /* Color claro para el track */
+    border-radius: 4px; /* Bordes redondeados */
+  }
+
+  /* Barra de desplazamiento (scrollbar thumb) */
+  *::-webkit-scrollbar-thumb {
+    background: #525252; /* Color del thumb */
+    border-radius: 4px; /* Bordes redondeados para efecto suave */
+  }
+
+  /* Hover sobre el thumb */
+  *::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1; /* Color más oscuro al pasar el mouse */
+  }
+
+  /* Activo (cuando estás arrastrando el scroll) */
+  *::-webkit-scrollbar-thumb:active {
+    background: #888888; /* Color más oscuro al hacer clic */
+  }
+}
