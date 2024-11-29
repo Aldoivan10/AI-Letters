@@ -24,6 +24,7 @@ const { rows, maxColumns, $starSpace } = storeToRefs(controller)
 const colsTemplate = computed(() => `repeat(${maxColumns.value}, 1fr)`)
 const $svgs = ref<SVGElement[]>([])
 const regex = /^[\p{L}\p{N}]$/u
+let hasAccent = false
 
 function next() {
   const $els = $svgs.value
@@ -70,9 +71,33 @@ function down() {
   $space?.focus()
 }
 
+function accent(char: string): string {
+  const accentMap: Record<string, string> = {
+    a: 'á',
+    e: 'é',
+    i: 'í',
+    o: 'ó',
+    u: 'ú',
+    A: 'Á',
+    E: 'É',
+    I: 'Í',
+    O: 'Ó',
+    U: 'Ú'
+  }
+  return accentMap[char] || char
+}
+
 function handleKey(evt: KeyboardEvent) {
-  if (evt.key === 'Backspace') controller.toggleChar(evt.target as SVGElement)
-  else if (regex.test(evt.key)) controller.toggleChar(evt.target as SVGElement, evt.key)
+  let key = evt.key
+  if (key === 'Backspace') controller.toggleChar(evt.target as SVGElement)
+  else if (key === 'Dead') hasAccent = true
+  else if (regex.test(key)) {
+    if (hasAccent) {
+      key = accent(evt.key)
+      hasAccent = false
+    }
+    controller.toggleChar(evt.target as SVGElement, key)
+  }
 }
 
 window.addEventListener('keyup', (evt) => {

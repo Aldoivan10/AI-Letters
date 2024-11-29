@@ -95,7 +95,6 @@ export const useController = defineStore('controller', () => {
   }
 
   function checkRow(rowClass: string) {
-    console.log('????')
     const $spaces = document.querySelectorAll(`.${rowClass}`)
     const arr = Array.from($spaces)
     const complete = arr.every(($el) => $el.querySelector('.placed'))
